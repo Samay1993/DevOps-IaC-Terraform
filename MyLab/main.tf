@@ -36,3 +36,33 @@ resource "aws_internet_gateway" "MyLab-IntGW" {
         Name = "MyLab-IntGW"
     }
 }
+
+# Create Security Group
+resource "aws_security_group" "MyLab-Sec-Grp" {
+    name = "MyLab Security Group"
+    description = "Allow inboud and outbound traffic to MyLab"
+    vpc_id = aws_vpc.MyLab-VPC.id
+
+    dynamic ingress {
+        iterator = port
+        for_each = var.ports
+            content{
+                from_port = port.value
+                to_port = port.value
+                protocol = "tcp"
+                cidr_blocks = ["0.0.0.0/0"]
+            }
+    }
+
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    tags = {
+        Name = "MyLab-SG1"
+    }    
+  
+}
