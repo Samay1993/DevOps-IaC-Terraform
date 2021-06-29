@@ -1,0 +1,4 @@
+/MyLab/.terraform/
+/MyLab/.terraform.lock.hcl
+/MyLab/terraform.tfstate
+/MyLab/terraform.tfstate.backup
