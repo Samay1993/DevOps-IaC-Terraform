@@ -66,3 +66,20 @@ resource "aws_security_group" "MyLab-Sec-Grp" {
     }    
   
 }
+
+# Create Route Table and Association
+resource "aws_route_table" "MyLab-Route-Table" {
+    vpc_id = aws_vpc.MyLab-VPC.id
+    route{
+        cidr_block = "0.0.0.0/0"
+        gateway_id = aws_internet_gateway.MyLab-IntGW.id
+    }
+    tags = {
+      "Name" = "MyLab-Route-Table"
+    }
+}
+
+resource "aws_route_table_association" "MyLab-Route-Table-Assn" {
+    subnet_id = aws_subnet.MyLab-Subnet1.id
+    route_table_id = aws_route_table.MyLab-Route-Table.id
+}
